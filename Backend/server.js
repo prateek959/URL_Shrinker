@@ -11,7 +11,7 @@ import "dotenv/config";
 const app = express();
 const PORT = process.env.PORT;
 
-const frontendUrl = "https://linkshrinker.netlify.app";
+const frontendUrl = "https://url-shrinker-25.netlify.app";
 
 const corsOptions = {
   origin: frontendUrl,
@@ -26,7 +26,7 @@ cron.schedule("0 0 0 * * *", async () => {
   await redis.set("counter", counter);
 },{timezone: "Asia/Kolkata"})
 
-app.use(cors());
+app.use(cors(corsOptions));
 
 app.use(express.json());
 
