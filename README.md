@@ -18,8 +18,8 @@ Link Shrinker is a web application that allows users to generate short URLs for 
 
 The Link Shrinker application is deployed and accessible at the following URLs:
 
-- **Frontend**: [https://linkshrinker.netlify.app](https://linkshrinker.netlify.app)
-- **Backend API**: [https://link-shrinker-gc27.onrender.com](https://link-shrinker-gc27.onrender.com)
+- **Frontend**: [https://url-shrinker-25.netlify.app/](https://url-shrinker-25.netlify.app/)
+- **Backend API**: [https://url-shrinker-myls.onrender.com](https://url-shrinker-myls.onrender.com)
 
 ---
 

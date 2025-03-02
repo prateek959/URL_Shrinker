@@ -16,7 +16,6 @@ const frontendUrl = "https://url-shrinker-25.netlify.app";
 const corsOptions = {
   origin: frontendUrl,
   methods: ["GET", "POST", "PUT", "DELETE"],
-  allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true,
 };
 
