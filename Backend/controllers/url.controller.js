@@ -30,7 +30,7 @@ const generateShortUrl = async (req, res) => {
     user.urls.push(url._id);
     await user.save();
 
-    const apiUrl = "http://localhost:8900";
+    const apiUrl = "https://url-shrinker-myls.onrender.com";
     const shortUrl = `${apiUrl}/${code}`;
 
     // **Generate QR Code**
@@ -82,7 +82,7 @@ const getUrls = async (req, res) => {
       {
         $addFields: {
           shortUrl: {
-            $concat: ["http:localhost:8900/", "$code"],
+            $concat: ["https://url-shrinker-myls.onrender.com/", "$code"],
           },
         },
       },
