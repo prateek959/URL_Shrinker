@@ -1,6 +1,7 @@
 import { redis } from "../redisConnection.js";
 import { Url } from "../models/url.model.js";
 import base62 from "base62";
+import QRCode from "qrcode";
 
 async function getCounter() {
   try {
@@ -19,42 +20,34 @@ const generateShortUrl = async (req, res) => {
     const { longUrl, title } = req.body;
 
     let counter = Number(await redis.get("counter"));
-
-    if (!counter) {
-      counter = await getCounter();
-    }
-
+    if (!counter) counter = await getCounter();
     await redis.set("counter", counter + 1);
 
-    console.log(counter);
-
     const code = base62.encode(counter);
-
     const url = new Url({ code, longUrl, title });
 
     await url.save();
-
     user.urls.push(url._id);
-
     await user.save();
 
-    const apiUrl = "https://url-shrinker-myls.onrender.com";
-
+    const apiUrl = "http://localhost:8900";
     const shortUrl = `${apiUrl}/${code}`;
 
-    console.log(shortUrl);
+    // **Generate QR Code**
+    const qrCodeDataURL = await QRCode.toDataURL(shortUrl);
 
-    res.status(201).json({ shortUrl });
+    res.status(201).json({ shortUrl, qrCode: qrCodeDataURL });
   } catch (error) {
     console.log(error);
     res.status(400).json({ error });
   }
 };
 
+
 const getLongUrl = async (req, res) => {
   try {
     const code = req.params.code;
-
+    console.log(code)
     const urlFromRedis = await redis.get(code);
     if (urlFromRedis) {
       console.log(`caching hitting for code:${code}`);
@@ -68,6 +61,7 @@ const getLongUrl = async (req, res) => {
     if (!url) {
       res.status(404).json({ msg: "Invalid ShortUrl" });
     } else {
+
       await redis.set(code, url.longUrl);
       res.status(302).redirect(url.longUrl);
     }
@@ -88,7 +82,7 @@ const getUrls = async (req, res) => {
       {
         $addFields: {
           shortUrl: {
-            $concat: ["https://url-shrinker-myls.onrender.com/", "$code"],
+            $concat: ["http:localhost:8900/", "$code"],
           },
         },
       },

@@ -7,20 +7,20 @@ const checkForToken = async (req, res, next) => {
 
   if (accessToken) {
     try {
-      console.log("In the If Part");
+   
       const decode = jwt.verify(accessToken, process.env.JWT_ACCESS_PASS);
 
       const user = await User.findOne({ _id: decode.id });
 
       req.user = user;
-
+      // console.log(req.user);
       next();
     } catch (error) {
       console.log("invalid access token");
       res.status(401).json({ message: "Unauthorized Access" });
     }
   } else {
-    console.log("In the else Part");
+    
     try {
       const refreshToken = req.cookies["refreshToken"];
 

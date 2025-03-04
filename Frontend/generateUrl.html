@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Link Shrinker</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css">
+    <script src="./scripts/userAuth.js"></script>
+    <style>
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #333;
+            padding: 15px;
+            color: white;
+        }
+
+        nav div a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="text-2xl font-bold">🔗 Link Shrinker</div>
+        <div>
+            <a href="./index.html" class="nav-a">Home</a>
+            <a href="./generateUrl.html" class="nav-a">Generate URL's</a>
+            <a href="./previousUrl.html" class="nav-a">Previous URL's</a>
+            <a href="./analytics.html" class="nav-a">Analytics</a>
+            <div class="w-8 h-8 flex items-center justify-center rounded-full bg-blue-500 text-white font-bold" id="user-name">?</div>
+        </div>
+    </nav>
+
+    <main class="flex-grow container mx-auto p-4">
+        <section id="homeSection" class="text-center">
+            <h2 class="text-3xl font-semibold text-gray-800">Welcome to Link Shrinker</h2>
+            <p class="text-gray-600 mt-4">
+                Shorten your long URLs and keep track of them efficiently.  
+                Create, manage, and view all your URLs in one place!
+            </p>
+        </section>
+
+        <section id="generateSection" class="mt-32">
+            <div class="bg-white w-full max-w-xl mx-auto shadow-lg rounded-lg p-6" id="container">
+                <h2 class="text-2xl font-semibold mb-4 text-gray-800">Generate Short URL</h2>
+                <form id="urlForm" class="flex flex-col gap-4">
+                    <input type="text" id="title" placeholder="Enter a title (optional)" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring focus:ring-blue-200">
+                    <input type="url" id="longUrl" placeholder="Enter your long URL" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring focus:ring-blue-200" required>
+                    <input type="submit" class="bg-blue-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-blue-600 transition cursor-pointer" value="Generate Short URL">
+                </form>
+            </div>
+
+            <!-- Short URL Display Section -->
+            <div class="bg-white w-full max-w-xl mx-auto shadow-lg rounded-lg p-6 hidden" id="short-container">
+                <p id="short-url" class="text-lg font-semibold"></p>
+                <button id="copy-btn" class="mt-2 bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600 transition">
+                    Copy URL
+                </button>
+                <p class="mt-2">Scan the QR code to open the link:</p>
+                <img id="qr-code" src="" alt="QR Code" class="mt-2 mx-auto w-40 h-40 hidden">
+            </div>
+        </section>
+    </main>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const userNameDiv = document.getElementById("user-name");
+
+            fetch("http://localhost:8900/user", {
+                method: "GET",
+                credentials: "include",
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.username) {
+                    userNameDiv.textContent = data.username[0].toUpperCase();
+                } else {
+                    userNameDiv.textContent = "?";
+                }
+            })
+            .catch(() => {
+                userNameDiv.textContent = "?";
+            });
+        });
+
+        document.getElementById("urlForm").addEventListener("submit", async (e) => {
+            e.preventDefault();
+
+            const longUrl = document.getElementById("longUrl").value;
+            const title = document.getElementById("title").value;
+
+            try {
+                const response = await fetch("http://localhost:8900/generate", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    credentials: "include",
+                    body: JSON.stringify({ longUrl, title }),
+                });
+
+                const result = await response.json();
+                console.log(result);
+
+                if (response.ok) {
+                    // Show only the short URL and QR code
+                    document.getElementById("container").classList.add("hidden");
+                    document.getElementById("short-container").classList.remove("hidden");
+                    document.getElementById("short-url").innerHTML = `
+                        Short URL: <a href="${result.shortUrl}" target="_blank" class="text-blue-500" id="short-link">${result.shortUrl}</a>
+                    `;
+                    document.getElementById("qr-code").src = result.qrCode;
+                    document.getElementById("qr-code").classList.remove("hidden");
+                } else {
+                    alert(result.message || "Error generating short URL");
+                }
+            } catch (error) {
+                console.error("Error:", error);
+                alert("An error occurred. Please try again.");
+            }
+        });
+
+        document.getElementById("copy-btn").addEventListener("click", () => {
+            const shortUrl = document.getElementById("short-link").textContent;
+            navigator.clipboard.writeText(shortUrl).then(() => {
+                alert("Short URL copied!");
+                window.location.href = "generateUrl.html";  // Redirect back to Generate URL page
+            }).catch(err => {
+                console.error("Failed to copy:", err);
+            });
+        });
+    </script>
+</body>
+</html>

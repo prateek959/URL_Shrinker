@@ -7,11 +7,12 @@ import express from "express";
 import cron from "node-cron";
 import cors from "cors";
 import "dotenv/config";
+import analyticsRouter from "./routes/analytics.routes.js";
 
 const app = express();
 const PORT = process.env.PORT;
 
-const frontendUrl = "https://url-shrinker-25.netlify.app";
+const frontendUrl = "http://127.0.0.1:5500";
 
 const corsOptions = {
   origin: frontendUrl,
@@ -38,6 +39,7 @@ app.get("/health", (req,res) => {
 app.use("/user", userRouter);
 
 app.use(urlRouter);
+app.use('/api',analyticsRouter);
 
 app.listen(PORT, async () => {
   await connectToDatabase();
