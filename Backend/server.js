@@ -32,12 +32,7 @@ app.use(express.json());
 
 app.use(cookieParser());
 
-app.get("/health", (req,res) => {
-  res.send("healthy")
-})
-
 app.use("/user", userRouter);
-
 app.use(urlRouter);
 app.use('/api',analyticsRouter);
 
