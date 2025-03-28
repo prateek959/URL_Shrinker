@@ -12,7 +12,8 @@ import analyticsRouter from "./routes/analytics.routes.js";
 const app = express();
 const PORT = process.env.PORT;
 
-const frontendUrl = "https://url-shrinker-25.netlify.app";
+// const frontendUrl = "https://url-shrinker-25.netlify.app";
+const frontendUrl = ["http://127.0.0.1:5500", 'https://url-shrinker-25.netlify.app'];
 
 const corsOptions = {
   origin: frontendUrl,
