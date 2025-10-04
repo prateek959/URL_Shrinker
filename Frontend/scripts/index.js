@@ -1,4 +1,4 @@
-
+const domain = "https://url-shrinker-myls.onrender.com";
 document.getElementById("urlForm").addEventListener("submit", async (e) => {
   e.preventDefault();
   const longUrl = document.getElementById("longUrl").value;
