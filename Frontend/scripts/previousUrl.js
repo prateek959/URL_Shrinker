@@ -1,4 +1,5 @@
-const domain = "https://url-shrinker-myls.onrender.com";
+// const domain = "https://url-shrinker-myls.onrender.com";
+ const domain = "http://localhost:8900";
 
 async function getPreviousUrls() {
   try {

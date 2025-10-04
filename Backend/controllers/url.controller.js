@@ -31,6 +31,7 @@ const generateShortUrl = async (req, res) => {
     await user.save();
 
     const apiUrl = "https://url-shrinker-myls.onrender.com";
+    // const apiUrl = "http://localhost:8900";
     const shortUrl = `${apiUrl}/${code}`;
 
     // **Generate QR Code**
@@ -47,10 +48,10 @@ const generateShortUrl = async (req, res) => {
 const getLongUrl = async (req, res) => {
   try {
     const code = req.params.code;
-    console.log(code)
+    // console.log(code)
     const urlFromRedis = await redis.get(code);
     if (urlFromRedis) {
-      console.log(`caching hitting for code:${code}`);
+      // console.log(`caching hitting for code:${code}`);
       return res.status(301).redirect(urlFromRedis);
     }
 

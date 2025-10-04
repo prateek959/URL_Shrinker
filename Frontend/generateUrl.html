@@ -69,10 +69,11 @@
     </main>
 
     <script>
+      
         document.addEventListener("DOMContentLoaded", () => {
             const userNameDiv = document.getElementById("user-name");
 
-            fetch("https://url-shrinker-myls.onrender.com/user", {
+            fetch(`${domain}/user`, {
                 method: "GET",
                 credentials: "include",
             })
@@ -96,7 +97,7 @@
             const title = document.getElementById("title").value;
 
             try {
-                const response = await fetch("https://url-shrinker-myls.onrender.com/generate", {
+                const response = await fetch(`${domain}/generate`, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",

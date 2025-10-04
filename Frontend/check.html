@@ -10,9 +10,11 @@
     <ul id="urlList"></ul>
 
     <script>
+         const domain = "https://url-shrinker-myls.onrender.com";
+    // const domain = "http://localhost:8900";
         async function fetchUserUrls() {
             try {
-                const response = await fetch('http://localhost:8900/check/try', {
+                const response = await fetch(`${domain}/check/try`, {
                     method: "GET",
                     credentials: "include" // Ensures cookies (access token) are sent
                 });
