@@ -1,5 +1,5 @@
-// const domain = "https://url-shrinker-myls.onrender.com";
- const domain = "http://localhost:8900";
+const domain = "https://url-shrinker-myls.onrender.com";
+//  const domain = "http://localhost:8900";
 
 function togglePasswordVisibility(inputId, button) {
   const input = document.getElementById(inputId);
