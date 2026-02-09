@@ -1,181 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Link Shrinker - Shorten Your URLs</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="style.css">
-    <!-- <script src="./scripts/userAuth.js"></script> -->
-    <style>
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: #1a202c;
-            padding: 15px 20px;
-            color: white;
-        }
-
-        nav div a {
-            color: white;
-            text-decoration: none;
-            margin: 0 15px;
-            font-weight: bold;
-            transition: color 0.3s;
-        }
-
-        nav div a:hover {
-            color: #38b2ac;
-        }
-
-        footer {
-            background: #1a202c;
-            color: white;
-            padding: 15px 20px;
-            text-align: center;
-            margin-top: 50px;
-        }
-
-        .social-icons a {
-            margin: 0 10px;
-            color: white;
-            transition: color 0.3s;
-        }
-
-        .social-icons a:hover {
-            color: #38b2ac;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login Page</title>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-100 flex flex-col min-h-screen">
-    <nav>
-      <div class="text-2xl font-bold">🔗 Link Shrinker</div>
-      <div class="flex items-center">
-        <a href="./index.html">Home</a>
-        <a href="./generateUrl.html" class="nav-a">Generate URL's</a>
-        <a href="./previousUrl.html">Previous URLs</a>
-        <a href="./analytics.html">Analytics</a>
-        <div class="w-8 h-8 flex items-center justify-center rounded-full bg-blue-500 text-white font-bold" id="user-name"></div>
-      </div>
-    </nav>
+<body class="bg-gray-900 bg-opacity-75 min-h-screen flex items-center justify-center">
+  <div id="container" class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
+    <!-- Login Form -->
+    <div id="login-box">
+      <h2 class="text-2xl font-bold text-center mb-6">Welcome Back</h2>
+      <form id="login-form" class="space-y-4">
+        <div>
+          <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+          <input 
+            type="email" 
+            id="email" 
+            name="email" 
+            class="w-full mt-1 p-2 border rounded-md focus:ring-2 focus:ring-blue-400 focus:outline-none" 
+            placeholder="Enter your email" 
+            required
+          >
+        </div>
 
-  <main class="flex-grow container mx-auto p-6">
-    <!-- Introduction Section -->
-    <section id="intro" class="text-center mt-12">
-      <h1 class="text-4xl font-bold text-gray-800">Welcome to Link Shrinker</h1>
-      <p class="text-gray-600 mt-4 text-lg max-w-2xl mx-auto">
-        A simple and efficient URL shortener that helps you shrink long links into short, shareable URLs. 
-        Keep track of all your URLs with analytics and history tracking.
+        <div>
+          <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+          <div class="relative">
+            <input 
+              type="password" 
+              id="password" 
+              name="password" 
+              class="w-full mt-1 p-2 border rounded-md focus:ring-2 focus:ring-blue-400 focus:outline-none" 
+              placeholder="Enter your password" 
+              required
+            >
+            <button 
+              type="button" 
+              class="absolute inset-y-0 right-2 flex items-center text-gray-600" 
+              onclick="togglePasswordVisibility('password', this)"
+            >
+              👁️
+            </button>
+          </div>
+        </div>
+
+        <button 
+          type="submit" 
+          class="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400"
+        >Login</button>
+      </form>
+
+      <p class="text-center text-sm text-gray-500 mt-4">
+        Don’t have an account? 
+        <a href="./signup.html" class="text-blue-500 hover:underline focus:outline-none">Sign Up</a>
       </p>
-    </section>
-
-    <!-- How It Works Section -->
-    <section id="how-it-works" class="mt-16">
-      <h2 class="text-3xl font-bold text-gray-800 text-center">How It Works?</h2>
-      <div class="flex flex-wrap justify-center gap-8 mt-6">
-        <div class="bg-white shadow-lg p-6 rounded-lg w-72 text-center">
-          <h3 class="text-xl font-semibold text-blue-600">1. Enter Your Link</h3>
-          <p class="text-gray-600">Paste your long URL in the input field.</p>
-        </div>
-        <div class="bg-white shadow-lg p-6 rounded-lg w-72 text-center">
-          <h3 class="text-xl font-semibold text-blue-600">2. Generate Short URL</h3>
-          <p class="text-gray-600">Click the button to instantly get a short link.</p>
-        </div>
-        <div class="bg-white shadow-lg p-6 rounded-lg w-72 text-center">
-          <h3 class="text-xl font-semibold text-blue-600">3. Copy & Share</h3>
-          <p class="text-gray-600">Copy your short link and share it anywhere.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Features Section -->
-    <section id="features" class="mt-16">
-      <h2 class="text-3xl font-bold text-gray-800 text-center">Features</h2>
-      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mt-6">
-        <div class="bg-white shadow-lg p-6 rounded-lg">
-          <h3 class="text-xl font-semibold text-blue-600">🔗 Short Links</h3>
-          <p class="text-gray-600">Quickly generate short and shareable URLs.</p>
-        </div>
-        <div class="bg-white shadow-lg p-6 rounded-lg">
-          <h3 class="text-xl font-semibold text-blue-600">📊 Track Analytics</h3>
-          <p class="text-gray-600">View click statistics and traffic insights.</p>
-        </div>
-        <div class="bg-white shadow-lg p-6 rounded-lg">
-          <h3 class="text-xl font-semibold text-blue-600">🔐 Secure & Private</h3>
-          <p class="text-gray-600">Your links are safe and protected.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Benefits Section -->
-    <section id="benefits" class="mt-16">
-      <h2 class="text-3xl font-bold text-gray-800 text-center">Why Use Link Shrinker?</h2>
-      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mt-6">
-        <div class="bg-white shadow-lg p-6 rounded-lg">
-          <h3 class="text-xl font-semibold text-green-600">🚀 Fast & Reliable</h3>
-          <p class="text-gray-600">Generate short links in just a few seconds.</p>
-        </div>
-        <div class="bg-white shadow-lg p-6 rounded-lg">
-          <h3 class="text-xl font-semibold text-green-600">📱 Mobile-Friendly</h3>
-          <p class="text-gray-600">Optimized for all devices.</p>
-        </div>
-        <div class="bg-white shadow-lg p-6 rounded-lg">
-          <h3 class="text-xl font-semibold text-green-600">💰 100% Free</h3>
-          <p class="text-gray-600">No hidden costs, use it anytime.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Call to Action -->
-    <section id="cta" class="text-center mt-16">
-      <h2 class="text-3xl font-bold text-gray-800">Ready to Get Started?</h2>
-      <p class="text-gray-600 mt-4">Enter your long URL and shrink it now!</p>
-      <a href="./generateUrl.html" class="mt-4 inline-block bg-blue-500 text-white font-bold py-3 px-6 rounded-lg hover:bg-blue-600 transition">
-        🚀 Shrink Your URL Now
-      </a>
-    </section>
-  </main>
-
-  <!-- Footer Section -->
-  <footer>
-    <p>&copy; 2025 Link Shrinker. All rights reserved.</p>
-    <div class="social-icons mt-2">
-      <a href="#" class="text-lg"><i class="fab fa-twitter"></i></a>
-      <a href="#" class="text-lg"><i class="fab fa-facebook"></i></a>
-      <a href="#" class="text-lg"><i class="fab fa-linkedin"></i></a>
     </div>
-  </footer>
-
-  <script>
-    const domain = "https://url-shrinker-myls.onrender.com";
-    // const domain = "http://localhost:8900";
-
-async function checkUserAuthentication() {
-  try {
-    const response = await fetch(`${domain}/user`, {
-      method: "GET",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-
-    if (response.status == 200) {
-        const data = await response.json();
-        console.log(data);
-        document.getElementById("user-name").textContent = data.name[0];
-    } else {
-      window.location.href = "./login.html";
-    }
-  } catch (error) {
-    window.location.href = "./login.html";
-  }
-}
-
-checkUserAuthentication();
-
-</script>
-<script src="./scripts/index.js"></script>
+  </div>
 </body>
 </html>
+<script src="./scripts/login.js"></script>
