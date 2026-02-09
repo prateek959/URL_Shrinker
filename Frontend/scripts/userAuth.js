@@ -16,10 +16,10 @@ async function checkUserAuthentication() {
         console.log(data);
         document.getElementById("user-name").textContent = data.name[0];
     } else {
-      window.location.href = "./login.html";
+      window.location.href = "./index.html";
     }
   } catch (error) {
-    window.location.href = "./login.html";
+    window.location.href = "./index.html";
   }
 }
 

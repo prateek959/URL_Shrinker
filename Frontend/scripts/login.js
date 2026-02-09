@@ -29,7 +29,7 @@ document.getElementById("login-form").addEventListener("submit", async (event) =
 
         if (response.status == 200) {
           const data = await response.json();
-          window.location.href = "./index.html";
+          window.location.href = "./dashboard.html";
         }else{
             const res = await response.json();
             alert(res.msg);

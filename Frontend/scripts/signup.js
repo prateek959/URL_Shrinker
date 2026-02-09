@@ -30,7 +30,7 @@ document
       });
 
       if (response.status == 201) {
-        window.location.href = "./login.html";
+        window.location.href = "./index.html";
       } else {
         const res = await response.json();
         alert(res.msg);
